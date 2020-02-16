@@ -3,16 +3,31 @@ package com.thanico.ponglwjgl.processing;
 import com.thanico.ponglwjgl.ui.PongUIConstants;
 import com.thanico.ponglwjgl.ui.PongUIDrawer;
 
+/**
+ * Class representing a pong ball and its position
+ * 
+ * @author Nicolas
+ *
+ */
 public class PongBall {
 
 	private float currentX;
 	private float currentY;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param startX starting X position
+	 * @param startY starting Y position
+	 */
 	public PongBall(float startX, float startY) {
 		this.setCurrentX(startX);
 		this.setCurrentY(startY);
 	}
 
+	/**
+	 * Draw the rectangle using current position
+	 */
 	public void draw() {
 		float x1 = this.getCurrentX();
 		float x2 = x1 + PongUIConstants.PONG_BALL_SIZE;
@@ -26,7 +41,7 @@ public class PongBall {
 		return currentX;
 	}
 
-	public void setCurrentX(float currentX) {
+	private void setCurrentX(float currentX) {
 		this.currentX = currentX;
 	}
 
@@ -34,7 +49,7 @@ public class PongBall {
 		return currentY;
 	}
 
-	public void setCurrentY(float currentY) {
+	private void setCurrentY(float currentY) {
 		this.currentY = currentY;
 	}
 }

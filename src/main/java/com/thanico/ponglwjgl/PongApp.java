@@ -17,45 +17,45 @@ import com.thanico.ponglwjgl.processing.PongBall;
 import com.thanico.ponglwjgl.processing.PongPaddle;
 
 public class PongApp {
-	// The window handle
+	/**
+	 * The window handle
+	 */
 	private long window;
 
+	/**
+	 * Left side
+	 */
 	private PongPaddle leftPaddle = null;
+
+	/**
+	 * Right side
+	 */
 	private PongPaddle rightPaddle = null;
 
-	private static final float MOVE_FACTOR = 0.08f;
+	/**
+	 * Move speed of the paddles
+	 */
+	private static final float MOVE_FACTOR_PADDLES = 0.08f;
 
+	/**
+	 * Main runner
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		new PongApp().run();
+	}
+
+	/**
+	 * Application startup
+	 */
 	public void run() {
 		System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
 		init();
-
 		leftPaddle = new PongPaddle(-0.97f, 0.95f);
 		rightPaddle = new PongPaddle(0.97f, 0.95f);
-
-		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-			// Setup a key callback. It will be called every time a key is pressed, repeated
-			// or released.
-			if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-				glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
-			}
-			// Action key for paddles
-			else if (action != GLFW_RELEASE) {
-				if (key == GLFW_KEY_Z) {
-					leftPaddle.moveTop(MOVE_FACTOR);
-				} else if (key == GLFW_KEY_S) {
-					leftPaddle.moveBottom(MOVE_FACTOR);
-				}
-
-				if (key == GLFW_KEY_UP) {
-					rightPaddle.moveTop(MOVE_FACTOR);
-				} else if (key == GLFW_KEY_DOWN) {
-					rightPaddle.moveBottom(MOVE_FACTOR);
-				}
-
-			}
-		});
-
+		setKeysCallback();
 		loop();
 
 		// Free the window callbacks and destroy the window
@@ -67,14 +67,18 @@ public class PongApp {
 		glfwSetErrorCallback(null).free();
 	}
 
+	/**
+	 * Graphical initialization
+	 */
 	private void init() {
 		// Setup an error callback. The default implementation
 		// will print the error message in System.err.
 		GLFWErrorCallback.createPrint(System.err).set();
 
 		// Initialize GLFW. Most GLFW functions will not work before doing this.
-		if (!glfwInit())
+		if (!glfwInit()) {
 			throw new IllegalStateException("Unable to initialize GLFW");
+		}
 
 		// Configure GLFW
 		glfwDefaultWindowHints(); // optional, the current window hints are already the default
@@ -83,8 +87,9 @@ public class PongApp {
 
 		// Create the window
 		window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
-		if (window == NULL)
+		if (window == NULL) {
 			throw new RuntimeException("Failed to create the GLFW window");
+		}
 
 		// Get the thread stack and push a new frame
 		try (MemoryStack stack = stackPush()) {
@@ -110,6 +115,37 @@ public class PongApp {
 		glfwShowWindow(window);
 	}
 
+	/**
+	 * Create the keys callback
+	 */
+	private void setKeysCallback() {
+		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
+			// Setup a key callback. It will be called every time a key is pressed, repeated
+			// or released.
+			if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
+				glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+			}
+			// Action key for paddles
+			else if (action != GLFW_RELEASE) {
+				if (key == GLFW_KEY_Z) {
+					leftPaddle.moveTop(MOVE_FACTOR_PADDLES);
+				} else if (key == GLFW_KEY_S) {
+					leftPaddle.moveBottom(MOVE_FACTOR_PADDLES);
+				}
+
+				if (key == GLFW_KEY_UP) {
+					rightPaddle.moveTop(MOVE_FACTOR_PADDLES);
+				} else if (key == GLFW_KEY_DOWN) {
+					rightPaddle.moveBottom(MOVE_FACTOR_PADDLES);
+				}
+
+			}
+		});
+	}
+
+	/**
+	 * Graphical drawing
+	 */
 	private void loop() {
 		// This line is critical for LWJGL's interoperation with GLFW's
 		// OpenGL context, or any context that is managed externally.
@@ -138,9 +174,5 @@ public class PongApp {
 			// invoked during this call.
 			glfwPollEvents();
 		}
-	}
-
-	public static void main(String[] args) {
-		new PongApp().run();
 	}
 }

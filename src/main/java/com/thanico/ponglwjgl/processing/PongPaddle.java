@@ -3,19 +3,41 @@ package com.thanico.ponglwjgl.processing;
 import com.thanico.ponglwjgl.ui.PongUIConstants;
 import com.thanico.ponglwjgl.ui.PongUIDrawer;
 
+/**
+ * Class representing a paddle and its position
+ * 
+ * @author Nicolas
+ *
+ */
 public class PongPaddle {
 
+	/**
+	 * Maximum Y-AXIS (top)
+	 */
 	public static final float maxTopPositionY = 0.99f;
+
+	/**
+	 * Maximum Y-AXIS (bottom)
+	 */
 	public static final float maxBottomPosition = -0.69f;
 
 	private float currentX;
 	private float currentY;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param startX starting X position
+	 * @param startY starting Y position
+	 */
 	public PongPaddle(float startX, float startY) {
 		this.setCurrentX(startX);
 		this.setCurrentY(startY);
 	}
 
+	/**
+	 * Draw the rectangle using current position
+	 */
 	public void draw() {
 		float x1 = this.getCurrentX();
 		float x2 = this.getCurrentX() + PongUIConstants.PONG_WIDTH;
