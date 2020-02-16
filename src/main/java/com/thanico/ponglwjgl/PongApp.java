@@ -17,6 +17,8 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
+import com.thanico.ponglwjgl.processing.PongBall;
+import com.thanico.ponglwjgl.processing.PongPaddle;
 import com.thanico.ponglwjgl.ui.PongUIConstants;
 
 public class PongApp {
@@ -104,23 +106,14 @@ public class PongApp {
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-			float x1 = -0.97f;
-			float x2 = x1 + PongUIConstants.PONG_WIDTH;
-			float y1 = 0.95f;
-			float y2 = y1 - PongUIConstants.PONG_SIZE;
-			drawRectangle(x1, x2, y1, y2, 1.0f, 1.0f, 1.0f);
+			PongPaddle leftPaddle = new PongPaddle(-0.97f, 0.95f, 0, 0, 0, 0);
+			leftPaddle.draw();
 
-			float vx1 = 0.97f;
-			float vx2 = vx1 - PongUIConstants.PONG_WIDTH;
-			float vy1 = -0.95f;
-			float vy2 = vy1 + PongUIConstants.PONG_SIZE;
-			drawRectangle(vx1, vx2, vy1, vy2, 1.0f, 1.0f, 1.0f);
+			PongPaddle rightPaddle = new PongPaddle(0.97f, 0.95f, 0, 0, 0, 0);
+			rightPaddle.draw();
 
-			float bx1 = -0.025f;
-			float bx2 = bx1 + PongUIConstants.PONG_BALL_SIZE;
-			float by1 = -0.025f;
-			float by2 = by1 + PongUIConstants.PONG_BALL_SIZE;
-			drawRectangle(bx1, bx2, by1, by2, 1.0f, 1.0f, 1.0f);
+			PongBall ball = new PongBall(-0.025f, -0.025f);
+			ball.draw();
 
 			glfwSwapBuffers(window); // swap the color buffers
 
@@ -128,29 +121,6 @@ public class PongApp {
 			// invoked during this call.
 			glfwPollEvents();
 		}
-	}
-
-	/**
-	 * Method used to draw a rectangle and fill it
-	 * 
-	 * @param x1    x-axis left side
-	 * @param x2    x-axis right side
-	 * @param y1    y-axis top
-	 * @param y2    y-axis bottom
-	 * 
-	 * @param red   float for color
-	 * @param green float for color
-	 * @param blue  float for color
-	 */
-	private void drawRectangle(float x1, float x2, float y1, float y2, float red, float green, float blue) {
-		glColor3f(red, green, blue);
-
-		glBegin(GL_POLYGON);
-		glVertex3f(x1, y1, 0f); // XYZ left, top
-		glVertex3f(x2, y1, 0f); // XYZ right, top
-		glVertex3f(x2, y2, 0f); // XYZ right, bottom
-		glVertex3f(x1, y2, 0f); // XYZ left, bottom
-		glEnd();
 	}
 
 	public static void main(String[] args) {
