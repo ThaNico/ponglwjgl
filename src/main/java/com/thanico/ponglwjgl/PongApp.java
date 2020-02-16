@@ -3,23 +3,18 @@ package com.thanico.ponglwjgl;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
-import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.system.MemoryStack;
+import org.lwjgl.glfw.*;
+import org.lwjgl.opengl.*;
+import org.lwjgl.system.*;
 
 import com.thanico.ponglwjgl.processing.PongBall;
 import com.thanico.ponglwjgl.processing.PongPaddle;
-import com.thanico.ponglwjgl.ui.PongUIConstants;
 
 public class PongApp {
 	// The window handle
@@ -106,10 +101,10 @@ public class PongApp {
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-			PongPaddle leftPaddle = new PongPaddle(-0.97f, 0.95f, 0, 0, 0, 0);
+			PongPaddle leftPaddle = new PongPaddle(-0.97f, 0.95f);
 			leftPaddle.draw();
 
-			PongPaddle rightPaddle = new PongPaddle(0.97f, 0.95f, 0, 0, 0, 0);
+			PongPaddle rightPaddle = new PongPaddle(0.97f, 0.95f);
 			rightPaddle.draw();
 
 			PongBall ball = new PongBall(-0.025f, -0.025f);

@@ -5,20 +5,13 @@ import com.thanico.ponglwjgl.ui.PongUIDrawer;
 
 public class PongPaddle {
 
-	private float minX;
-	private float maxX;
-	private float minY;
-	private float maxY;
+	public static final float maxTopPositionY = 0.99f;
+	public static final float maxBottomPosition = -0.69f;
 
 	private float currentX;
 	private float currentY;
 
-	public PongPaddle(float startX, float startY, float minX, float maxX, float minY, float maxY) {
-		this.minX = minX;
-		this.maxX = maxX;
-		this.minY = minY;
-		this.maxY = maxY;
-
+	public PongPaddle(float startX, float startY) {
 		this.setCurrentX(startX);
 		this.setCurrentY(startY);
 	}
@@ -31,11 +24,69 @@ public class PongPaddle {
 		PongUIDrawer.drawRectangle(x1, x2, y1, y2, 1.0f, 1.0f, 1.0f);
 	}
 
-	public float getCurrentX() {
+	/**
+	 * Move the paddle to the top
+	 * 
+	 * @param amount amount to move
+	 */
+	public void moveTop(float amount) {
+		float futureY = getFutureYafterMoveTop(amount);
+		this.setCurrentY(futureY);
+		this.draw();
+	}
+
+	/**
+	 * Calculate the future Y position after moveTop call
+	 * 
+	 * @param amount amount to move
+	 * @return future Y position (maximum is maxTopPositionY)
+	 */
+	protected float getFutureYafterMoveTop(float amount) {
+		if (amount < 0) {
+			throw new IllegalArgumentException("Move amount should be positive.");
+		}
+
+		float futureY = this.getCurrentY() + amount;
+		if (futureY > maxTopPositionY) {
+			futureY = maxTopPositionY;
+		}
+		return futureY;
+	}
+
+	/**
+	 * Move the paddle to the bottom
+	 * 
+	 * @param amount amount to move
+	 */
+	public void moveBottom(float amount) {
+		float futureY = getFutureYafterMoveBottom(amount);
+		this.setCurrentY(futureY);
+		this.draw();
+	}
+
+	/**
+	 * Calculate the future Y position after moveBottom call
+	 * 
+	 * @param amount amount to move
+	 * @return future Y position (minimum is maxBottomPosition)
+	 */
+	protected float getFutureYafterMoveBottom(float amount) {
+		if (amount < 0) {
+			throw new IllegalArgumentException("Move amount should be positive.");
+		}
+
+		float futureY = this.getCurrentY() - amount;
+		if (futureY < maxBottomPosition) {
+			futureY = maxBottomPosition;
+		}
+		return futureY;
+	}
+
+	protected float getCurrentX() {
 		return currentX;
 	}
 
-	public void setCurrentX(float currentX) {
+	private void setCurrentX(float currentX) {
 		this.currentX = currentX;
 	}
 
@@ -43,7 +94,7 @@ public class PongPaddle {
 		return currentY;
 	}
 
-	public void setCurrentY(float currentY) {
+	private void setCurrentY(float currentY) {
 		this.currentY = currentY;
 	}
 }
