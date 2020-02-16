@@ -23,14 +23,11 @@ public class PongApp {
 	private long window;
 
 	/**
-	 * Left side
+	 * Pong paddles and ball
 	 */
-	private PongPaddle leftPaddle = null;
-
-	/**
-	 * Right side
-	 */
-	private PongPaddle rightPaddle = null;
+	private PongPaddle leftPaddle;
+	private PongPaddle rightPaddle;
+	private PongBall pongBall;
 
 	/**
 	 * Move speed of the paddles
@@ -55,6 +52,7 @@ public class PongApp {
 		init(width, height, applicationName);
 		leftPaddle = new PongPaddle(-0.97f, 0.95f);
 		rightPaddle = new PongPaddle(0.97f, 0.95f);
+		pongBall = new PongBall(-0.025f, -0.025f);
 		setKeysCallback();
 		loop();
 
@@ -168,9 +166,7 @@ public class PongApp {
 
 			leftPaddle.draw();
 			rightPaddle.draw();
-
-			PongBall ball = new PongBall(-0.025f, -0.025f);
-			ball.draw();
+			pongBall.draw();
 
 			glfwSwapBuffers(window); // swap the color buffers
 
