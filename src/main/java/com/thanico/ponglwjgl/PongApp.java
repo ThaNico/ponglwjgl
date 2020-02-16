@@ -20,10 +20,36 @@ public class PongApp {
 	// The window handle
 	private long window;
 
+	private PongPaddle leftPaddle = null;
+	private PongPaddle rightPaddle = null;
+
+	private static final float MOVE_FACTOR = 0.08f;
+
 	public void run() {
 		System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
 		init();
+
+		leftPaddle = new PongPaddle(-0.97f, 0.95f);
+		rightPaddle = new PongPaddle(0.97f, 0.95f);
+
+		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
+			if (action != GLFW_RELEASE) {
+				if (key == GLFW_KEY_Z) {
+					leftPaddle.moveTop(MOVE_FACTOR);
+				} else if (key == GLFW_KEY_S) {
+					leftPaddle.moveBottom(MOVE_FACTOR);
+				}
+
+				if (key == GLFW_KEY_UP) {
+					rightPaddle.moveTop(MOVE_FACTOR);
+				} else if (key == GLFW_KEY_DOWN) {
+					rightPaddle.moveBottom(MOVE_FACTOR);
+				}
+
+			}
+		});
+
 		loop();
 
 		// Free the window callbacks and destroy the window
@@ -101,10 +127,7 @@ public class PongApp {
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-			PongPaddle leftPaddle = new PongPaddle(-0.97f, 0.95f);
 			leftPaddle.draw();
-
-			PongPaddle rightPaddle = new PongPaddle(0.97f, 0.95f);
 			rightPaddle.draw();
 
 			PongBall ball = new PongBall(-0.025f, -0.025f);
