@@ -43,16 +43,16 @@ public class PongApp {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new PongApp().run();
+		new PongApp().run(400, 400, "Pong LWJGL !");
 	}
 
 	/**
 	 * Application startup
 	 */
-	public void run() {
+	public void run(int width, int height, String applicationName) {
 		System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
-		init();
+		init(width, height, applicationName);
 		leftPaddle = new PongPaddle(-0.97f, 0.95f);
 		rightPaddle = new PongPaddle(0.97f, 0.95f);
 		setKeysCallback();
@@ -69,8 +69,12 @@ public class PongApp {
 
 	/**
 	 * Graphical initialization
+	 * 
+	 * @param applicationName
+	 * @param height
+	 * @param width
 	 */
-	private void init() {
+	private void init(int width, int height, String applicationName) {
 		// Setup an error callback. The default implementation
 		// will print the error message in System.err.
 		GLFWErrorCallback.createPrint(System.err).set();
@@ -86,7 +90,7 @@ public class PongApp {
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
 		// Create the window
-		window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
+		window = glfwCreateWindow(width, height, applicationName, NULL, NULL);
 		if (window == NULL) {
 			throw new RuntimeException("Failed to create the GLFW window");
 		}
