@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.thanico.ponglwjgl.ui.PongUIConstants;
+
 public class PongCollisionManagerTest {
 
 	@Test
@@ -12,6 +14,9 @@ public class PongCollisionManagerTest {
 
 		assertEquals("", PongCollisionManager.EXPECTED_DIRECTION.GOTO_NONE, pcm.getExpectedDirection());
 	}
+
+	// Tests on the isBallCollidingWithBorder method
+	//
 
 	@Test
 	public void test_isBallCollidingWithBorder_withCollisionRightSide() {
@@ -52,6 +57,9 @@ public class PongCollisionManagerTest {
 		assertFalse("", pcm.isBallCollidingWithBorder());
 		assertEquals("", PongCollisionManager.EXPECTED_DIRECTION.GOTO_NONE, pcm.getExpectedDirection());
 	}
+
+	// tests on the changeBallDirection method
+	//
 
 	@Test
 	public void test_changeBallDirection_gotoTop_shouldChangeYaxis() {
@@ -103,4 +111,114 @@ public class PongCollisionManagerTest {
 		assertEquals("", 0, pcm.getTheBall().getDirectionY(), 0);
 	}
 
+	// tests on the isBallCollidingWithPaddle method
+	//
+	@Test
+	public void test_isBallCollidingWithPaddle_withoutCoords_shouldBeTrue() {
+		PongBall pongball = new PongBall(0, 0);
+		PongPaddle paddle = new PongPaddle(0, 0);
+		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
+
+		boolean collision = pcm.isBallCollidingWithPaddle(paddle, true);
+		assertTrue("", collision);
+	}
+
+	@Test
+	public void test_isBallCollidingWithPaddle_defaultCoords_shouldBeFalse() {
+		PongBall pongball = new PongBall(-0.025f, -0.025f);
+		PongPaddle paddle = new PongPaddle(-0.97f, 0.95f);
+		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
+
+		boolean collision = pcm.isBallCollidingWithPaddle(paddle, true);
+		assertFalse("", collision);
+	}
+
+	// tests on the isBallCollidingWithPaddle method
+	// (X axis correct ; Y axis variation : top/bottom)
+	//
+	@Test
+	public void test_isBallCollidingWithPaddle_topBallAsTopPaddle_shouldBeTrue() {
+		PongBall pongball = new PongBall(-0.97f, -0.025f);
+		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f);
+		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
+
+		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, true));
+		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, false));
+	}
+
+	@Test
+	public void test_isBallCollidingWithPaddle_botBallAsTopPaddle_shouldBeTrue() {
+		PongBall pongball = new PongBall(-0.97f, -0.025f + PongUIConstants.PONG_BALL_SIZE);
+		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f);
+		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
+
+		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, true));
+		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, false));
+	}
+
+	@Test
+	public void test_isBallCollidingWithPaddle_topBallAsBotPaddle_shouldBeTrue() {
+		PongBall pongball = new PongBall(-0.97f, -0.025f);
+		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f + PongUIConstants.PONG_SIZE);
+		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
+
+		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, true));
+		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, false));
+	}
+
+	@Test
+	public void test_isBallCollidingWithPaddle_botBallAsBotPaddle_shouldBeTrue() {
+		PongBall pongball = new PongBall(-0.97f, -0.025f + PongUIConstants.PONG_BALL_SIZE);
+		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f + PongUIConstants.PONG_SIZE);
+		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
+
+		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, true));
+		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, false));
+	}
+
+	@Test
+	public void test_isBallCollidingWithPaddle_ballTooHigh_shouldBeFalse() {
+		PongBall pongball = new PongBall(-0.97f, -0.025f + PongUIConstants.PONG_BALL_SIZE + 0.1f);
+		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f);
+		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
+
+		assertFalse("", pcm.isBallCollidingWithPaddle(paddle, true));
+		assertFalse("", pcm.isBallCollidingWithPaddle(paddle, false));
+	}
+
+	@Test
+	public void test_isBallCollidingWithPaddle_ballTooLow_shouldBeFalse() {
+		PongBall pongball = new PongBall(-0.97f, -0.025f - 0.1f);
+		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f + PongUIConstants.PONG_SIZE);
+		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
+
+		assertFalse("", pcm.isBallCollidingWithPaddle(paddle, true));
+		assertFalse("", pcm.isBallCollidingWithPaddle(paddle, false));
+	}
+
+	// tests on the isBallCollidingWithPaddle method
+	// (X axis incorrect)
+	//
+
+	@Test
+	public void test_isBallCollidingWithPaddle_ballRightOfThePaddle() {
+		PongBall pongball = new PongBall(-0.67f, -0.025f);
+		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f);
+		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
+
+		assertFalse("", pcm.isBallCollidingWithPaddle(paddle, true));
+		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, false));
+	}
+
+	@Test
+	public void test_isBallCollidingWithPaddle_ballLeftOfThePaddle() {
+		PongBall pongball = new PongBall(-0.97f, -0.025f);
+		PongPaddle paddle = new PongPaddle(-0.67f, -0.025f);
+		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
+
+		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, true));
+		assertFalse("", pcm.isBallCollidingWithPaddle(paddle, false));
+	}
+
+	// rightPaddle = new PongPaddle(0.97f, 0.95f);
 }

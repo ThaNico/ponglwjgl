@@ -50,7 +50,7 @@ public class PongCollisionManager {
 	 * @param paddleToCheck
 	 * @return true if colliding, false if not
 	 */
-	private boolean isBallCollidingWithPaddle(PongPaddle paddleToCheck, boolean isLeftPaddle) {
+	protected boolean isBallCollidingWithPaddle(PongPaddle paddleToCheck, boolean isLeftPaddle) {
 		boolean collisionDetected = false;
 
 		// check X axis first
@@ -72,7 +72,8 @@ public class PongCollisionManager {
 			float paddleTopCoord = 2.0f + paddleToCheck.getCurrentY();
 			float paddleBotCoord = paddleTopCoord - PongUIConstants.PONG_SIZE;
 
-			collisionDetected = (ballBotCoord <= paddleTopCoord && ballTopCoord >= paddleBotCoord);
+			collisionDetected = ((ballBotCoord < paddleTopCoord || Math.abs(paddleTopCoord - ballBotCoord) <= 0.001)
+					&& (ballTopCoord > paddleBotCoord || Math.abs(ballTopCoord - paddleBotCoord) <= 0.001));
 
 			System.out.println(" (" + ballBotCoord + " <= " + paddleTopCoord + " && " + ballTopCoord + " >= "
 					+ paddleBotCoord + ")");
