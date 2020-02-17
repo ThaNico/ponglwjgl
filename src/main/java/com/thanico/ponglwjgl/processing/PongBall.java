@@ -22,7 +22,8 @@ public class PongBall {
 	/**
 	 * Ball speed
 	 */
-	private static final float MOVE_FACTOR_BALL = 0.004f;
+	private static final float BALL_SPEED_X = 0.008f;
+	private static final float BALL_SPEED_Y = 0.002f;
 
 	/**
 	 * Maximum Y-AXIS (top)
@@ -89,9 +90,9 @@ public class PongBall {
 
 		// Add or remove position
 		if (this.getDirectionX() > this.getCurrentX()) {
-			futureX = this.getCurrentX() + MOVE_FACTOR_BALL;
+			futureX = this.getCurrentX() + BALL_SPEED_X;
 		} else {
-			futureX = this.getCurrentX() - MOVE_FACTOR_BALL;
+			futureX = this.getCurrentX() - BALL_SPEED_X;
 		}
 
 		// Check for limits
@@ -114,9 +115,9 @@ public class PongBall {
 
 		// Add or remove position
 		if (this.getDirectionY() > this.getCurrentY()) {
-			futureY = this.getCurrentY() + MOVE_FACTOR_BALL;
+			futureY = this.getCurrentY() + BALL_SPEED_Y;
 		} else {
-			futureY = this.getCurrentY() - MOVE_FACTOR_BALL;
+			futureY = this.getCurrentY() - BALL_SPEED_Y;
 		}
 
 		// Check for limits
