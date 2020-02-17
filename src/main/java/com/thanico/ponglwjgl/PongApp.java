@@ -136,9 +136,9 @@ public class PongApp {
 			}
 			// Action key for paddles
 			else if (action != GLFW_RELEASE) {
-				if (key == GLFW_KEY_Z) {
+				if (key == GLFW_KEY_E) {
 					leftPaddle.moveTop(MOVE_FACTOR_PADDLES);
-				} else if (key == GLFW_KEY_S) {
+				} else if (key == GLFW_KEY_D) {
 					leftPaddle.moveBottom(MOVE_FACTOR_PADDLES);
 				}
 
