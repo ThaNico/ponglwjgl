@@ -15,6 +15,7 @@ import org.lwjgl.system.*;
 
 import com.thanico.ponglwjgl.processing.PongBall;
 import com.thanico.ponglwjgl.processing.PongCollisionManager;
+import com.thanico.ponglwjgl.processing.PongHUD;
 import com.thanico.ponglwjgl.processing.PongPaddle;
 
 public class PongApp {
@@ -29,6 +30,7 @@ public class PongApp {
 	private PongPaddle leftPaddle;
 	private PongPaddle rightPaddle;
 	private PongBall pongBall;
+	private PongHUD pongHUD;
 
 	/**
 	 * Collision management
@@ -51,10 +53,12 @@ public class PongApp {
 		System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
 		init(width, height, applicationName);
-		leftPaddle = new PongPaddle(-0.97f, 0.95f);
-		rightPaddle = new PongPaddle(0.97f, 0.95f);
+		leftPaddle = new PongPaddle(-0.97f, 0.80f);
+		rightPaddle = new PongPaddle(0.97f, 0.80f);
 		pongBall = new PongBall(-0.025f, -0.025f);
 		pcm = new PongCollisionManager(leftPaddle, rightPaddle, pongBall);
+		pongHUD = new PongHUD();
+
 		setKeysCallback();
 		loop();
 
@@ -168,6 +172,7 @@ public class PongApp {
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
+			pongHUD.draw();
 			leftPaddle.draw();
 			rightPaddle.draw();
 			pcm.changeDirectionIfCollision();

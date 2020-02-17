@@ -19,7 +19,7 @@ public class PongPaddle {
 	/**
 	 * Maximum Y-AXIS (top)
 	 */
-	public static final float maxTopPositionY = 0.99f;
+	public static final float maxTopPositionY = 0.85f;
 
 	/**
 	 * Maximum Y-AXIS (bottom)

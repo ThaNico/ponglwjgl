@@ -28,12 +28,12 @@ public class PongBall {
 	/**
 	 * Maximum Y-AXIS (top)
 	 */
-	public static final float maxTopPositionY = 0.99f;
+	public static final float maxTopPositionY = 0.85f - PongUIConstants.PONG_BALL_SIZE;
 
 	/**
 	 * Maximum Y-AXIS (bottom)
 	 */
-	public static final float maxBottomPositionY = -0.99f;
+	public static final float maxBottomPositionY = -1.0f;
 
 	/**
 	 * Maximum X-AXIS (left)
