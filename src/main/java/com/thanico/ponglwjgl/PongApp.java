@@ -14,6 +14,7 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import com.thanico.ponglwjgl.processing.PongBall;
+import com.thanico.ponglwjgl.processing.PongCollisionManager;
 import com.thanico.ponglwjgl.processing.PongPaddle;
 
 public class PongApp {
@@ -28,6 +29,11 @@ public class PongApp {
 	private PongPaddle leftPaddle;
 	private PongPaddle rightPaddle;
 	private PongBall pongBall;
+
+	/**
+	 * Collision management
+	 */
+	private PongCollisionManager pcm;
 
 	/**
 	 * Move speed of the paddles
@@ -53,6 +59,7 @@ public class PongApp {
 		leftPaddle = new PongPaddle(-0.97f, 0.95f);
 		rightPaddle = new PongPaddle(0.97f, 0.95f);
 		pongBall = new PongBall(-0.025f, -0.025f);
+		pcm = new PongCollisionManager(leftPaddle, rightPaddle, pongBall);
 		setKeysCallback();
 		loop();
 
@@ -166,6 +173,8 @@ public class PongApp {
 
 			leftPaddle.draw();
 			rightPaddle.draw();
+			pcm.changeDirectionIfCollision();
+			pongBall.updatePositionFromDirection();
 			pongBall.draw();
 
 			glfwSwapBuffers(window); // swap the color buffers
