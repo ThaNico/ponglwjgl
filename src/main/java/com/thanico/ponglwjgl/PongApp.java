@@ -57,7 +57,7 @@ public class PongApp {
 
 		init(width, height, applicationName);
 
-		sflt = new FuckingSimpleLwjglText();
+		sflt = new FuckingSimpleLwjglText(width, height);
 
 		leftPaddle = new PongPaddle(-0.97f, 0.80f);
 		rightPaddle = new PongPaddle(0.97f, 0.80f);

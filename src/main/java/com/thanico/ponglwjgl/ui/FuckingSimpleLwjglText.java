@@ -1,6 +1,5 @@
 package com.thanico.ponglwjgl.ui;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_R;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.stb.STBTruetype.*;
 import static org.lwjgl.system.MemoryUtil.*;
@@ -8,6 +7,9 @@ import static org.lwjgl.system.MemoryUtil.*;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.stb.STBTTAlignedQuad;
@@ -28,10 +30,9 @@ import com.thanico.ponglwjgl.utils.IOUtil;
  */
 public class FuckingSimpleLwjglText {
 	private static final String TTF_FONT_NAME = "fonts/BebasNeue-Regular.ttf";
+
 	private int ww;
 	private int wh;
-	private int fbw;
-	private int fbh;
 
 	private int font_tex;
 
@@ -46,26 +47,43 @@ public class FuckingSimpleLwjglText {
 	private final FloatBuffer xb = memAllocFloat(1);
 	private final FloatBuffer yb = memAllocFloat(1);
 
-	private static final int[] sf = { 0, 1, 2, 0, 1, 2 };
-	private int font = 3;
-
-	private boolean translating;
-	private boolean rotating;
-
 	private float rotate_t, translate_t;
 
-	public FuckingSimpleLwjglText() {
-		ww = 400;
-		wh = 400;
-		fbw = 400;
-		fbh = 400;
-		this.init();
+	/**
+	 * 
+	 */
+	private Map<String, PongUIText> textList;
+
+	/**
+	 * 
+	 */
+	public FuckingSimpleLwjglText(int width, int height) {
+		this.setTextList(new HashMap<String, PongUIText>());
+		load_fonts();
+		this.addText("T1", "ABC123", 80, 30, false, false, 0);
+		this.addText("T2", "DEF456", 80, 20, true, false, 1);
+		this.addText("T3", "GHI789", 80, 10, false, true, 2);
+
+		ww = width;
+		wh = height;
+
 	}
 
-	private void init() {
-		load_fonts();
-		toggleRotation();
-		toggleTranslation();
+	/**
+	 * 
+	 * 
+	 * @param textKey
+	 * @param text
+	 * @param x
+	 * @param y
+	 * @param rotationEnabled
+	 * @param translationEnabled
+	 * @param fontID
+	 */
+	public void addText(String textKey, String text, float x, float y, boolean rotationEnabled,
+			boolean translationEnabled, int fontID) {
+		PongUIText put = new PongUIText(text, x, y, rotationEnabled, translationEnabled, fontID);
+		this.getTextList().put(textKey, put);
 	}
 
 	public void loop(float dt) {
@@ -107,44 +125,31 @@ public class FuckingSimpleLwjglText {
 	 * 
 	 */
 	private void draw_world() {
-		int sfont = sf[font];
-
-		float x = 10;
-
+		// Needed to display clear text
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		// glColor3f(1.0f, 1.0f, 1.0f);
 
-		print(80, 30, sfont, "ABC123");
+		for (Entry<String, PongUIText> entry : this.getTextList().entrySet()) {
+			PongUIText put = entry.getValue();
 
-		glMatrixMode(GL_MODELVIEW);
-		glTranslatef(200, 350, 0);
+			float x = put.getX();
+			if (put.isTranslationEnabled()) {
+				glMatrixMode(GL_MODELVIEW);
+				glTranslatef(200, 350, 0);
+				x += translate_t * 8 % 30;
+			}
 
-		if (translating) {
-			x += translate_t * 8 % 30;
+			if (put.isRotationEnabled()) {
+				glTranslatef(100, 150, 0);
+				glRotatef(rotate_t * 2, 0, 0, 1);
+				glTranslatef(-100, -150, 0);
+			}
+
+			print(x, put.getY(), put.getFontID(), put.getText());
 		}
 
-		if (rotating) {
-			glTranslatef(100, 150, 0);
-			glRotatef(rotate_t * 2, 0, 0, 1);
-			glTranslatef(-100, -150, 0);
-		}
-		print(x, 2, font, "This is a test");
-		print(x, 10, font, "Now is the time for all good men to come to the aid of their country.");
-		print(x, 18, font, "The quick brown fox jumps over the lazy dog.");
-		print(x, 26, font, "0123456789");
-
-	}
-
-	public void toggleRotation() {
-		rotating = !rotating;
-		rotate_t = 0.0f;
-	}
-
-	public void toggleTranslation() {
-		translating = !translating;
-		translate_t = 0.0f;
 	}
 
 	/**
@@ -234,6 +239,14 @@ public class FuckingSimpleLwjglText {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public Map<String, PongUIText> getTextList() {
+		return textList;
+	}
+
+	public void setTextList(Map<String, PongUIText> textList) {
+		this.textList = textList;
 	}
 
 }
