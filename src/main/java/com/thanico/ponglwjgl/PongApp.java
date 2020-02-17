@@ -30,6 +30,7 @@ public class PongApp {
 	private PongPaddle leftPaddle;
 	private PongPaddle rightPaddle;
 	private PongBall pongBall;
+
 	private PongHUD pongHUD;
 
 	/**
@@ -172,12 +173,16 @@ public class PongApp {
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-			pongHUD.draw();
 			leftPaddle.draw();
 			rightPaddle.draw();
-			pcm.changeDirectionIfCollision();
+			if (pcm.changeDirectionIfCollision()) {
+				// if leftside was last touch; then rightside has lost
+				// so add point to leftside
+				pongHUD.addPoint(pcm.isLeftsideLastTouch());
+			}
 			pongBall.updatePositionFromDirection();
 			pongBall.draw();
+			pongHUD.draw();
 
 			glfwSwapBuffers(window); // swap the color buffers
 

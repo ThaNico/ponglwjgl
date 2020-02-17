@@ -13,6 +13,8 @@ public class PongCollisionManager {
 	private PongPaddle rightPaddle;
 	private PongBall theBall;
 
+	private boolean leftsideLastTouch;
+
 	// Expected move direction
 	enum EXPECTED_DIRECTION {
 		GOTO_NONE, GOTO_LEFT, GOTO_RIGHT, GOTO_TOP, GOTO_BOT,
@@ -38,22 +40,32 @@ public class PongCollisionManager {
 
 	/**
 	 * Change the ball direction if collision detected
+	 * 
+	 * @return true if a player has lost, false otherwise
 	 */
-	public void changeDirectionIfCollision() {
+	public boolean changeDirectionIfCollision() {
 		boolean collideLeft = isBallCollidingWithPaddle(leftPaddle, true);
 		boolean collideRight = isBallCollidingWithPaddle(rightPaddle, false);
 		boolean collideBorder = isBallCollidingWithBorder();
 
 		// if collision change direction
 		if (collideLeft || collideRight || collideBorder) {
+			if (collideLeft) {
+				setLeftsideLastTouch(true);
+			} else if (collideRight) {
+				setLeftsideLastTouch(false);
+			}
 			changeBallDirection();
+
 		}
 
 		// if border collision, a player has lost
 		if (collideBorder && (this.getExpectedDirection() == EXPECTED_DIRECTION.GOTO_LEFT
 				|| this.getExpectedDirection() == EXPECTED_DIRECTION.GOTO_RIGHT)) {
 			this.getTheBall().resetPosition();
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -208,5 +220,13 @@ public class PongCollisionManager {
 
 	private void setDirectionPercentage(float directionPercentage) {
 		this.directionPercentage = directionPercentage;
+	}
+
+	public boolean isLeftsideLastTouch() {
+		return leftsideLastTouch;
+	}
+
+	private void setLeftsideLastTouch(boolean leftsideLastTouch) {
+		this.leftsideLastTouch = leftsideLastTouch;
 	}
 }

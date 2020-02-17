@@ -32,6 +32,7 @@ public class PongHUD {
 		} else {
 			setScoreRight(getScoreRight() + 1);
 		}
+		System.out.println("LEFT : " + getScoreLeft() + " | RIGHT : " + getScoreRight());
 	}
 
 	/**
