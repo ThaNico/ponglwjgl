@@ -22,27 +22,27 @@ public class PongBall {
 	/**
 	 * Ball speed
 	 */
-	private static final float MOVE_FACTOR_BALL = 0.003f;
+	private static final float MOVE_FACTOR_BALL = 0.004f;
 
 	/**
 	 * Maximum Y-AXIS (top)
 	 */
-	public static final float maxTopPositionY = 0.89f;
+	public static final float maxTopPositionY = 0.99f;
 
 	/**
 	 * Maximum Y-AXIS (bottom)
 	 */
-	public static final float maxBottomPositionY = -0.89f;
+	public static final float maxBottomPositionY = -0.99f;
 
 	/**
 	 * Maximum X-AXIS (left)
 	 */
-	public static final float maxLeftPositionX = -0.89f;
+	public static final float maxLeftPositionX = -1.0f;
 
 	/**
 	 * Maximum X-AXIS (right)
 	 */
-	public static final float maxRightPositionX = 0.89f;
+	public static final float maxRightPositionX = 1.0f - PongUIConstants.PONG_BALL_SIZE;
 
 	/**
 	 * Constructor
