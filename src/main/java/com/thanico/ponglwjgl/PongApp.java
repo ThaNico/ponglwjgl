@@ -131,18 +131,20 @@ public class PongApp {
 			}
 			// Action key for paddles
 			else if (action != GLFW_RELEASE) {
-				if (key == GLFW_KEY_E) {
+				switch (key) {
+				case GLFW_KEY_E:
 					leftPaddle.moveTop(PongPaddle.PADDLE_SPEED_Y);
-				} else if (key == GLFW_KEY_D) {
+					break;
+				case GLFW_KEY_D:
 					leftPaddle.moveBottom(PongPaddle.PADDLE_SPEED_Y);
-				}
-
-				if (key == GLFW_KEY_UP) {
+					break;
+				case GLFW_KEY_UP:
 					rightPaddle.moveTop(PongPaddle.PADDLE_SPEED_Y);
-				} else if (key == GLFW_KEY_DOWN) {
+					break;
+				case GLFW_KEY_DOWN:
 					rightPaddle.moveBottom(PongPaddle.PADDLE_SPEED_Y);
+					break;
 				}
-
 			}
 		});
 	}
