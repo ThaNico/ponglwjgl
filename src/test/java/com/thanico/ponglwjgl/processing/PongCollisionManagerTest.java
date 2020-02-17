@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.thanico.ponglwjgl.processing.PongCollisionManager.EXPECTED_DIRECTION;
-
 public class PongCollisionManagerTest {
 
 	@Test
