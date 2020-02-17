@@ -1,5 +1,7 @@
 package com.thanico.ponglwjgl.processing;
 
+import com.thanico.ponglwjgl.ui.PongUIConstants;
+
 /**
  * Class used to manage the ball's collisions
  * 
@@ -36,7 +38,7 @@ public class PongCollisionManager {
 	 * Change the ball direction if collision detected
 	 */
 	public void changeDirectionIfCollision() {
-		if (isBallCollidingWithPaddle(leftPaddle) || isBallCollidingWithPaddle(rightPaddle)
+		if (isBallCollidingWithPaddle(leftPaddle, true) || isBallCollidingWithPaddle(rightPaddle, false)
 				|| isBallCollidingWithBorder()) {
 			changeBallDirection();
 		}
@@ -48,8 +50,41 @@ public class PongCollisionManager {
 	 * @param paddleToCheck
 	 * @return true if colliding, false if not
 	 */
-	private boolean isBallCollidingWithPaddle(PongPaddle paddleToCheck) {
-		return false;
+	private boolean isBallCollidingWithPaddle(PongPaddle paddleToCheck, boolean isLeftPaddle) {
+		boolean collisionDetected = false;
+
+		// check X axis first
+		boolean possibleCollisionOnX = false;
+		if (isLeftPaddle) {
+			float ballLeftCoord = this.getTheBall().getCurrentX();
+			float paddleBorder = paddleToCheck.getCurrentX() + PongUIConstants.PONG_WIDTH;
+			possibleCollisionOnX = (ballLeftCoord <= paddleBorder);
+		} else {
+			float ballRightCoord = this.getTheBall().getCurrentX() + PongUIConstants.PONG_BALL_SIZE;
+			float paddleBorder = paddleToCheck.getCurrentX();
+			possibleCollisionOnX = (ballRightCoord >= paddleBorder);
+		}
+
+		if (possibleCollisionOnX) {
+			float ballTopCoord = 2.0f + this.getTheBall().getCurrentY();
+			float ballBotCoord = ballTopCoord - PongUIConstants.PONG_BALL_SIZE;
+
+			float paddleTopCoord = 2.0f + paddleToCheck.getCurrentY();
+			float paddleBotCoord = paddleTopCoord - PongUIConstants.PONG_SIZE;
+
+			collisionDetected = (ballBotCoord <= paddleTopCoord && ballTopCoord >= paddleBotCoord);
+
+			System.out.println(" (" + ballBotCoord + " <= " + paddleTopCoord + " && " + ballTopCoord + " >= "
+					+ paddleBotCoord + ")");
+			System.out.println("collisionDetected ==> " + collisionDetected);
+
+		}
+
+		if (collisionDetected) {
+			// if collision on left paddle then goto right
+			this.setExpectedDirection((isLeftPaddle ? EXPECTED_DIRECTION.GOTO_RIGHT : EXPECTED_DIRECTION.GOTO_LEFT));
+		}
+		return collisionDetected;
 	}
 
 	/**
