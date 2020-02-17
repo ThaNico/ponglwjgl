@@ -12,6 +12,11 @@ import com.thanico.ponglwjgl.ui.PongUIDrawer;
 public class PongPaddle {
 
 	/**
+	 * Move speed of the paddles
+	 */
+	public static final float PADDLE_SPEED_Y = 0.042f;
+
+	/**
 	 * Maximum Y-AXIS (top)
 	 */
 	public static final float maxTopPositionY = 0.99f;

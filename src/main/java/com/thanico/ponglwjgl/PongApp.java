@@ -36,11 +36,6 @@ public class PongApp {
 	private PongCollisionManager pcm;
 
 	/**
-	 * Move speed of the paddles
-	 */
-	private static final float MOVE_FACTOR_PADDLES = 0.08f;
-
-	/**
 	 * Main runner
 	 * 
 	 * @param args
@@ -137,15 +132,15 @@ public class PongApp {
 			// Action key for paddles
 			else if (action != GLFW_RELEASE) {
 				if (key == GLFW_KEY_E) {
-					leftPaddle.moveTop(MOVE_FACTOR_PADDLES);
+					leftPaddle.moveTop(PongPaddle.PADDLE_SPEED_Y);
 				} else if (key == GLFW_KEY_D) {
-					leftPaddle.moveBottom(MOVE_FACTOR_PADDLES);
+					leftPaddle.moveBottom(PongPaddle.PADDLE_SPEED_Y);
 				}
 
 				if (key == GLFW_KEY_UP) {
-					rightPaddle.moveTop(MOVE_FACTOR_PADDLES);
+					rightPaddle.moveTop(PongPaddle.PADDLE_SPEED_Y);
 				} else if (key == GLFW_KEY_DOWN) {
-					rightPaddle.moveBottom(MOVE_FACTOR_PADDLES);
+					rightPaddle.moveBottom(PongPaddle.PADDLE_SPEED_Y);
 				}
 
 			}
