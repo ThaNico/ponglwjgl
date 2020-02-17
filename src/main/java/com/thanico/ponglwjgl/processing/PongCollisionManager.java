@@ -20,6 +20,8 @@ public class PongCollisionManager {
 
 	private EXPECTED_DIRECTION expectedDirection;
 
+	private float directionPercentage = 0.0f;
+
 	/**
 	 * Constructor
 	 * 
@@ -79,6 +81,10 @@ public class PongCollisionManager {
 					+ paddleBotCoord + ")");
 			System.out.println("collisionDetected ==> " + collisionDetected);
 
+			if (collisionDetected) {
+				calculateDirectionPercentage((paddleTopCoord + paddleBotCoord) / 2, (ballTopCoord + ballBotCoord) / 2);
+			}
+
 		}
 
 		if (collisionDetected) {
@@ -86,6 +92,17 @@ public class PongCollisionManager {
 			this.setExpectedDirection((isLeftPaddle ? EXPECTED_DIRECTION.GOTO_RIGHT : EXPECTED_DIRECTION.GOTO_LEFT));
 		}
 		return collisionDetected;
+	}
+
+	/**
+	 * 
+	 * @param paddleToCheck
+	 * @param ballMiddle
+	 */
+	private void calculateDirectionPercentage(float paddleMiddle, float ballMiddle) {
+		float percentageCollision = ballMiddle - paddleMiddle;
+		System.out.println("percentageCollision is " + percentageCollision + " : " + ballMiddle + " - " + paddleMiddle);
+		this.setDirectionPercentage(percentageCollision);
 	}
 
 	/**
@@ -131,15 +148,21 @@ public class PongCollisionManager {
 		switch (this.getExpectedDirection()) {
 		case GOTO_TOP:
 			expectedPosY = PongBall.maxTopPositionY;
+			expectedPosX = this.getTheBall().getDirectionX();
 			break;
 		case GOTO_BOT:
 			expectedPosY = PongBall.maxBottomPositionY;
+			expectedPosX = this.getTheBall().getDirectionX();
 			break;
 		case GOTO_LEFT:
 			expectedPosX = PongBall.maxLeftPositionX;
+			expectedPosY = this.getTheBall().getDirectionY();
+			expectedPosY += this.getDirectionPercentage() * 20;
 			break;
 		case GOTO_RIGHT:
 			expectedPosX = PongBall.maxRightPositionX;
+			expectedPosY = this.getTheBall().getDirectionY();
+			expectedPosY += this.getDirectionPercentage() * 20;
 			break;
 		default:
 		}
@@ -147,8 +170,10 @@ public class PongCollisionManager {
 		// Change one axis
 		if (expectedPosX != 0)
 			this.getTheBall().setDirectionX(expectedPosX);
-		else if (expectedPosY != 0)
+		if (expectedPosY != 0)
 			this.getTheBall().setDirectionY(expectedPosY);
+
+		System.out.println("new expectedPosX = " + expectedPosX + ":: new expectedPosY = " + expectedPosY);
 	}
 
 	protected EXPECTED_DIRECTION getExpectedDirection() {
@@ -165,5 +190,13 @@ public class PongCollisionManager {
 
 	private void setTheBall(PongBall theBall) {
 		this.theBall = theBall;
+	}
+
+	public float getDirectionPercentage() {
+		return directionPercentage;
+	}
+
+	private void setDirectionPercentage(float directionPercentage) {
+		this.directionPercentage = directionPercentage;
 	}
 }
