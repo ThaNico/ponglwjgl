@@ -17,6 +17,7 @@ import com.thanico.ponglwjgl.processing.PongBall;
 import com.thanico.ponglwjgl.processing.PongCollisionManager;
 import com.thanico.ponglwjgl.processing.PongHUD;
 import com.thanico.ponglwjgl.processing.PongPaddle;
+import com.thanico.ponglwjgl.ui.FuckingSimpleLwjglText;
 
 public class PongApp {
 	/**
@@ -33,6 +34,7 @@ public class PongApp {
 
 	private PongHUD pongHUD;
 
+	private FuckingSimpleLwjglText sflt;
 	/**
 	 * Collision management
 	 */
@@ -54,6 +56,9 @@ public class PongApp {
 		System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
 		init(width, height, applicationName);
+
+		sflt = new FuckingSimpleLwjglText();
+
 		leftPaddle = new PongPaddle(-0.97f, 0.80f);
 		rightPaddle = new PongPaddle(0.97f, 0.80f);
 		pongBall = new PongBall(-0.025f, -0.025f);
@@ -62,6 +67,11 @@ public class PongApp {
 
 		setKeysCallback();
 		loop();
+
+		//
+		sflt.destroy();
+
+		GL.setCapabilities(null);
 
 		// Free the window callbacks and destroy the window
 		glfwFreeCallbacks(window);
@@ -117,6 +127,14 @@ public class PongApp {
 
 		// Make the OpenGL context current
 		glfwMakeContextCurrent(window);
+
+		// This line is critical for LWJGL's interoperation with GLFW's
+		// OpenGL context, or any context that is managed externally.
+		// LWJGL detects the context that is current in the current thread,
+		// creates the GLCapabilities instance and makes the OpenGL
+		// bindings available for use.
+		GL.createCapabilities();
+
 		// Enable v-sync
 		glfwSwapInterval(1);
 
@@ -158,20 +176,20 @@ public class PongApp {
 	 * Graphical drawing
 	 */
 	private void loop() {
-		// This line is critical for LWJGL's interoperation with GLFW's
-		// OpenGL context, or any context that is managed externally.
-		// LWJGL detects the context that is current in the current thread,
-		// creates the GLCapabilities instance and makes the OpenGL
-		// bindings available for use.
-		GL.createCapabilities();
 
 		// Set the clear color
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		// Run the rendering loop until the user has attempted to close
 		// the window or has pressed the ESCAPE key.
+		long time = System.nanoTime();
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+
+			long t = System.nanoTime();
+			float dt = (float) ((t - time) / 1000000000.0);
+			time = t;
+			sflt.loop(dt);
 
 			leftPaddle.draw();
 			rightPaddle.draw();
