@@ -59,6 +59,14 @@ public class PongBall {
 	}
 
 	/**
+	 * Recenter the ball
+	 */
+	public void resetPosition() {
+		this.setCurrentX(-0.025f);
+		this.setCurrentY(-0.025f);
+	}
+
+	/**
 	 * Draw the rectangle using current position
 	 */
 	public void draw() {

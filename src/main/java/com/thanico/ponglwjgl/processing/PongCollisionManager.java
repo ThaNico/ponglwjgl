@@ -40,9 +40,19 @@ public class PongCollisionManager {
 	 * Change the ball direction if collision detected
 	 */
 	public void changeDirectionIfCollision() {
-		if (isBallCollidingWithPaddle(leftPaddle, true) || isBallCollidingWithPaddle(rightPaddle, false)
-				|| isBallCollidingWithBorder()) {
+		boolean collideLeft = isBallCollidingWithPaddle(leftPaddle, true);
+		boolean collideRight = isBallCollidingWithPaddle(rightPaddle, false);
+		boolean collideBorder = isBallCollidingWithBorder();
+
+		// if collision change direction
+		if (collideLeft || collideRight || collideBorder) {
 			changeBallDirection();
+		}
+
+		// if border collision, a player has lost
+		if (collideBorder && (this.getExpectedDirection() == EXPECTED_DIRECTION.GOTO_LEFT
+				|| this.getExpectedDirection() == EXPECTED_DIRECTION.GOTO_RIGHT)) {
+			this.getTheBall().resetPosition();
 		}
 	}
 
