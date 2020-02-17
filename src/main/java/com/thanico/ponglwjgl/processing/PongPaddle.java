@@ -40,9 +40,9 @@ public class PongPaddle {
 	 */
 	public void draw() {
 		float x1 = this.getCurrentX();
-		float x2 = this.getCurrentX() + PongUIConstants.PONG_WIDTH;
+		float x2 = this.getCurrentX() + PongUIConstants.PONG_PADDLE_WIDTH;
 		float y1 = this.getCurrentY();
-		float y2 = this.getCurrentY() - PongUIConstants.PONG_SIZE;
+		float y2 = this.getCurrentY() - PongUIConstants.PONG_PADDLE_YSIZE;
 		PongUIDrawer.drawRectangle(x1, x2, y1, y2, 1.0f, 1.0f, 1.0f);
 	}
 

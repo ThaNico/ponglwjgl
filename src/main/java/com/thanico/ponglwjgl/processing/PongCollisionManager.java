@@ -57,7 +57,7 @@ public class PongCollisionManager {
 		boolean possibleCollisionOnX = false;
 		if (isLeftPaddle) {
 			float ballLeftCoord = this.getTheBall().getCurrentX();
-			float paddleBorder = paddleToCheck.getCurrentX() + PongUIConstants.PONG_WIDTH;
+			float paddleBorder = paddleToCheck.getCurrentX() + PongUIConstants.PONG_PADDLE_WIDTH;
 			possibleCollisionOnX = (ballLeftCoord <= paddleBorder);
 		} else {
 			float ballRightCoord = this.getTheBall().getCurrentX() + PongUIConstants.PONG_BALL_SIZE;
@@ -70,7 +70,7 @@ public class PongCollisionManager {
 			float ballBotCoord = ballTopCoord - PongUIConstants.PONG_BALL_SIZE;
 
 			float paddleTopCoord = 2.0f + paddleToCheck.getCurrentY();
-			float paddleBotCoord = paddleTopCoord - PongUIConstants.PONG_SIZE;
+			float paddleBotCoord = paddleTopCoord - PongUIConstants.PONG_PADDLE_YSIZE;
 
 			collisionDetected = ((ballBotCoord < paddleTopCoord || Math.abs(paddleTopCoord - ballBotCoord) <= 0.001)
 					&& (ballTopCoord > paddleBotCoord || Math.abs(ballTopCoord - paddleBotCoord) <= 0.001));

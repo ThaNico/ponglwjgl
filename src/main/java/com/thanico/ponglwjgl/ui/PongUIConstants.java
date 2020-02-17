@@ -5,12 +5,12 @@ public class PongUIConstants {
 	 * Size of the pong tab<br>
 	 * TODO: change this for difficulty
 	 */
-	public static final float PONG_SIZE = 0.3f;
+	public static final float PONG_PADDLE_YSIZE = 0.3f;
 
 	/**
 	 * Width of the pong tab
 	 */
-	public static final float PONG_WIDTH = 0.03f;
+	public static final float PONG_PADDLE_WIDTH = 0.03f;
 
 	/**
 	 * Size of the pong ball

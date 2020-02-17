@@ -159,7 +159,7 @@ public class PongCollisionManagerTest {
 	@Test
 	public void test_isBallCollidingWithPaddle_topBallAsBotPaddle_shouldBeTrue() {
 		PongBall pongball = new PongBall(-0.97f, -0.025f);
-		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f + PongUIConstants.PONG_SIZE);
+		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f + PongUIConstants.PONG_PADDLE_YSIZE);
 		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
 
 		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, true));
@@ -169,7 +169,7 @@ public class PongCollisionManagerTest {
 	@Test
 	public void test_isBallCollidingWithPaddle_botBallAsBotPaddle_shouldBeTrue() {
 		PongBall pongball = new PongBall(-0.97f, -0.025f + PongUIConstants.PONG_BALL_SIZE);
-		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f + PongUIConstants.PONG_SIZE);
+		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f + PongUIConstants.PONG_PADDLE_YSIZE);
 		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
 
 		assertTrue("", pcm.isBallCollidingWithPaddle(paddle, true));
@@ -189,7 +189,7 @@ public class PongCollisionManagerTest {
 	@Test
 	public void test_isBallCollidingWithPaddle_ballTooLow_shouldBeFalse() {
 		PongBall pongball = new PongBall(-0.97f, -0.025f - 0.1f);
-		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f + PongUIConstants.PONG_SIZE);
+		PongPaddle paddle = new PongPaddle(-0.97f, -0.025f + PongUIConstants.PONG_PADDLE_YSIZE);
 		PongCollisionManager pcm = new PongCollisionManager(null, null, pongball);
 
 		assertFalse("", pcm.isBallCollidingWithPaddle(paddle, true));
