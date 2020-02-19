@@ -105,18 +105,18 @@ public class FuckingSimpleLwjglText {
 	 * 
 	 */
 	private void draw_init() {
-		// glDisable(GL_CULL_FACE);
-		// glDisable(GL_TEXTURE_2D);
-		// glDisable(GL_LIGHTING);
-		// glDisable(GL_DEPTH_TEST);
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_LIGHTING);
+		glDisable(GL_DEPTH_TEST);
 
-		// glViewport(0, 0, fbw, fbh);
-		// glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		// glClear(GL_COLOR_BUFFER_BIT);
+		glViewport(0, 0, 400, 400);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0.0, ww, wh, 0.0, -1.0, 1.0);
+		// glOrtho(0.0, ww, wh, 0.0, -1.0, 1.0); // blackscreen
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 	}
@@ -129,23 +129,23 @@ public class FuckingSimpleLwjglText {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		// glColor3f(1.0f, 1.0f, 1.0f);
+		glColor3f(1.0f, 0.0f, 0.0f);
 
 		for (Entry<String, PongUIText> entry : this.getTextList().entrySet()) {
 			PongUIText put = entry.getValue();
 
 			float x = put.getX();
-			if (put.isTranslationEnabled()) {
-				glMatrixMode(GL_MODELVIEW);
-				glTranslatef(200, 350, 0);
-				x += translate_t * 8 % 30;
-			}
-
-			if (put.isRotationEnabled()) {
-				glTranslatef(100, 150, 0);
-				glRotatef(rotate_t * 2, 0, 0, 1);
-				glTranslatef(-100, -150, 0);
-			}
+//			if (put.isTranslationEnabled()) {
+//				glMatrixMode(GL_MODELVIEW);
+//				glTranslatef(200, 350, 0);
+//				x += translate_t * 8 % 30;
+//			}
+//
+//			if (put.isRotationEnabled()) {
+//				glTranslatef(100, 150, 0);
+//				glRotatef(rotate_t * 2, 0, 0, 1);
+//				glTranslatef(-100, -150, 0);
+//			}
 
 			print(x, put.getY(), put.getFontID(), put.getText());
 		}
@@ -165,7 +165,7 @@ public class FuckingSimpleLwjglText {
 
 		chardata.position(font * 128);
 
-		glEnable(GL_TEXTURE_2D);
+//		glEnable(GL_TEXTURE_2D); // blackscreen
 		glBindTexture(GL_TEXTURE_2D, font_tex);
 
 		glBegin(GL_QUADS);
