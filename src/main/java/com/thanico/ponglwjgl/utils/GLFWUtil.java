@@ -1,18 +1,18 @@
 package com.thanico.ponglwjgl.utils;
 
+import static org.lwjgl.glfw.GLFW.glfwGetFramebufferSize;
+import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
+import static org.lwjgl.system.MemoryStack.stackPush;
+
+import java.nio.IntBuffer;
+
 /*
  * Copyright LWJGL. All rights reserved.
  * License terms: https://www.lwjgl.org/license
  */
-
-import org.lwjgl.glfw.*;
-import org.lwjgl.system.*;
-
-import javax.annotation.*;
-import java.nio.*;
-
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.system.MemoryStack.*;
+import org.lwjgl.glfw.GLFWFramebufferSizeCallbackI;
+import org.lwjgl.glfw.GLFWWindowSizeCallbackI;
+import org.lwjgl.system.MemoryStack;
 
 /** GLFW demo utilities. */
 public final class GLFWUtil {

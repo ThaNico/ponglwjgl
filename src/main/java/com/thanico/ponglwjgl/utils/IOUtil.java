@@ -1,18 +1,22 @@
 package com.thanico.ponglwjgl.utils;
 
+import static org.lwjgl.BufferUtils.createByteBuffer;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.SeekableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /*
  * Copyright LWJGL. All rights reserved.
  * License terms: https://www.lwjgl.org/license
  */
-
-import org.lwjgl.*;
-
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.nio.file.*;
-
-import static org.lwjgl.BufferUtils.*;
+import org.lwjgl.BufferUtils;
 
 public final class IOUtil {
 
